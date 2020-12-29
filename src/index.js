@@ -5,7 +5,7 @@ const morgan = require('morgan');
 
 
 // Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 app.set('json spaces', 2);
 
 
