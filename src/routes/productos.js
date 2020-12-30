@@ -72,4 +72,28 @@ router.delete('/:id', async (req, res) => {
 
 });
 
+
+router.patch('/cambiar_estado/:id', async (req, res) => {
+    
+    const productos = await db.query('SELECT * FROM productos WHERE id = ?', req.params.id);
+
+    if (productos.length > 0) {
+
+        producto = productos[0];
+        producto.disponible = !producto.disponible;
+
+        db.query('UPDATE productos SET ? WHERE id = ?', [producto, req.params.id], (err) => {
+            if(!err) {
+                res.send({'data': producto, 'success': true, 'message': 'Estado cambiado'});
+            } else {
+                res.send({'data': err.sqlMessage, 'success': false, 'message': 'Ocurrió un error al editar el producto'});
+            }
+        });
+
+    } else {
+        res.send({'data': null, 'success': false, 'message': 'Producto no encontrado'})
+    }
+
+});
+
 module.exports = router;
